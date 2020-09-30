@@ -42,8 +42,8 @@ class generate_moochub_task extends \core\task\scheduled_task {
 
 				//Liste noch statisch, später dynamisch (?)
 				$lang_list = [
-				    'Deutsch',
-				    'Englisch'
+				    'de',
+				    'en'
 				];
 
 				$fs = get_file_storage();
@@ -64,15 +64,36 @@ class generate_moochub_task extends \core\task\scheduled_task {
 				    }
 				}
 
+				$unis = explode("\n", $universities->param1);
+				$subjects = explode("\n", $subjectareas->param1);
+
+				$uninames = array();
+				$subjectnames = array();
+
+				$uniids = explode(',', $product->university);
+				$subjectids = explode(',', $product->subjectarea);
+
+				foreach($uniids as $uniid){
+					$uninames[] = $unis[$uniid];
+				}
+
+				foreach($subjectids as $subjectid){
+					$subjectnames[] = $subjects[$subjectid];
+				}
+
+				$unilist = implode(', ', $uninames);
+				$subjectlist = implode(', ', $subjectnames);
+
 				$data_entry['attributes']['name'] = $product->coursetitle;
-				$data_entry['attributes']['overviewimage'] = (string)$fileurl;
-				$data_entry['attributes']['lecturer'] = $product->lecturer;
-				$data_entry['attributes']['university'] = explode("\n", $universities->param1)[$product->university];
-				$data_entry['attributes']['courselanguage'] = $lang_list[$product->courselanguage];
-				$data_entry['attributes']['subjectarea'] = explode("\n", $subjectareas->param1)[$product->subjectarea];
+				$data_entry['attributes']['productImage'] = (string)$fileurl; //overviewimage
+				$data_entry['attributes']['publisher'] = $product->lecturer;
+				$data_entry['attributes']['university'] = $unilist;
+				$data_entry['attributes']['languages'] = $lang_list[$product->courselanguage];
+				$data_entry['attributes']['subjectarea'] = $subjectlist;
 				$data_entry['attributes']['processingtime'] = $product->processingtime . ' Stunden';
-				$data_entry['attributes']['starttime'] = date('d.m.y', $product->starttime);
+				$data_entry['attributes']['startDate'] = date('d.m.y', $product->starttime);
 				$data_entry['attributes']['teasertext'] = $product->teasertext;
+				$data_entry['attributes']['externprovider'] = 'openvhb';
 
 				$json['data'][] = $data_entry;
 			}

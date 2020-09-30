@@ -38,9 +38,13 @@ class ildmeta_form extends moodleform
 
         // Anbietende Unis
         $universities = $DB->get_record('user_info_field', array('shortname' => 'universities'));
+        $select = $mform->addElement('select', 'universitylist', get_string('university', 'local_ildmeta'), explode("\n", $universities->param1));
+        $mform->setType('universitylist', PARAM_RAW);
+        $select->setMultiple(true);
 
-        $mform->addElement('select', 'university', get_string('university', 'local_ildmeta'), explode("\n", $universities->param1));
-        $mform->setType('university', PARAM_RAW);
+        $mform->addElement('html', $this->get_unilist_div_string());
+
+        $mform->addElement('hidden', 'university', '');
         $mform->addElement('static', 'text_university', '', get_string('text_university', 'local_ildmeta'));
 
         // Fachbereich/Wissensgebiet
@@ -225,7 +229,18 @@ class ildmeta_form extends moodleform
 		
 		// TODO overviewimage nicht vergessen
 
-	}
+    }
+    
+    function get_unilist_div_string(){
+        $string = "<div class='form-group row fitem'>";
+
+        $string .= "<div class='col-md-3'></div>";
+        $string .= "<div class='col-md-9 form-inline felement'><div id='unilist'></div></div>";
+
+        $string .= "</div>";
+        
+        return $string;
+    }
 
 
 }

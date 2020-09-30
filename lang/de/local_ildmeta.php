@@ -10,17 +10,17 @@ $string['pluginname'] = 'ILD Meta';
 $string['testtext'] = 'This is a Teststring';
 $string['heading'] = 'Metadaten bearbeiten';
 $string['heading_output'] = 'This is the Ouput Heading';
-$string['title'] = 'Edit Metadata';
+$string['title'] = 'Metadaten bearbeiten';
 
 // Form
-$string['overviewimage'] = 'Overview image';
+$string['overviewimage'] = 'Bild für die Übersicht';
 $string['detailimage'] = 'Bild für Detailseite (alternativ zum Youtube Video)';
 $string['coursetitle'] = 'Kurstitel';
 $string['lecturer'] = 'Dozent/Anbieter';
 $string['courselanguage'] = 'Kurssprache';
 $string['university'] = 'Anbietende Hochschulen';
 $string['processingtime'] = 'Bearbeitungszeit';
-$string['starttime'] = 'Available from';
+$string['starttime'] = 'Kursbeginn';
 $string['teasertext'] = 'Was erwartet Sie in diesem Kurs?';
 $string['targetgroup'] = 'Zielgruppe';
 $string['learninggoals'] = 'Was können Sie in diesem Kurs lernen?';
