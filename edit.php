@@ -346,12 +346,15 @@ if ($mform->is_cancelled()) {
         $DB->insert_record('ildmeta', $new);
     }
 
+    // Get course title for heading.
+    $course = $DB->get_record('course', ['id' => $courseid]);
+
     // Set the page layout and start the output.
     $PAGE->set_pagelayout('admin');
     $PAGE->set_context($context);
     $PAGE->set_url($url);
     $PAGE->set_title(get_string('title', 'local_ildmeta'));
-    $PAGE->set_heading(get_string('heading', 'local_ildmeta'));
+    $PAGE->set_heading(get_string('heading', 'local_ildmeta') . " - " . $course->shortname);
 
     echo $OUTPUT->header();
 

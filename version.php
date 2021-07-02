@@ -26,5 +26,5 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'local_ildmeta';
-$plugin->version = 2021070100;
+$plugin->version = 2021070200;
 $plugin->requires = 2010112400;

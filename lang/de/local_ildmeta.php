@@ -31,8 +31,8 @@ $string['generate_moochub_task'] = 'MOOC Hub Task';
 
 // General information.
 $string['pluginname'] = 'Kurs Metadaten';
-$string['heading'] = 'Metadaten bearbeiten';
-$string['title'] = 'Metadaten bearbeiten';
+$string['heading'] = 'Kurs Metadaten bearbeiten';
+$string['title'] = 'Kurs Metadaten bearbeiten';
 $string['permissiondenied'] = 'Sie haben nicht die erforderlichen Berechtigungen dieses Modul zu verwenden.';
 
 // Meta data form.
