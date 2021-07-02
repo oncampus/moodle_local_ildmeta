@@ -26,6 +26,5 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->component = 'local_ildmeta';
-// TBD -> Adjust version to 2021 when final release is ready.
-$plugin->version = 2020121803;
+$plugin->version = 2021070100;
 $plugin->requires = 2010112400;
