@@ -25,14 +25,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$tasks = array(
-    array(
-        'classname' => 'local_ildmeta\task\generate_moochub_task',
-        'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
-        'day' => '*',
-        'month' => '*',
-        'dayofweek' => '*'
-    )
-);
+require_once("$CFG->libdir/formslib.php");
+
+class ildmeta_delete_lecturer_form extends moodleform {
+
+    // Add elements to form.
+    public function definition() {
+        $mform = $this->_form; // Don't forget the underscore!
+
+        $mform->addElement('html', '<h2>' . get_string('form:lecturer_delete', 'local_ildmeta') . '</h2>');
+        $mform->addElement('html', '<p>' . get_string('form:lecturer_delete_text', 'local_ildmeta') . '</p>');
+        $buttonarray = array();
+        $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('form:lecturer_true', 'local_ildmeta'));
+        $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('form:lecturer_false', 'local_ildmeta'));
+        $mform->addGroup($buttonarray, 'buttonar', '', ' ', false);
+    }
+
+    // Custom validation should be added here.
+    public function validation($data, $files) {
+        return array();
+    }
+}
