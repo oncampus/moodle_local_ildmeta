@@ -219,7 +219,7 @@ if ($mform->is_cancelled()) {
             file_save_draft_area_files($draftlecturer, $coursecontext->id, 'local_ildmeta', $key, 0);
         }
         if (strpos($key, '_editor')) {
-            $lecturer->$key = $fromform->{$key['text']};
+            $lecturer->$key = $fromform->$key['text'];
         }
     }
 
@@ -290,7 +290,7 @@ if ($mform->is_cancelled()) {
             foreach ($getlect as $lec) {
                 if (strpos($lec->name, '_editor')) {
                     $key = $lec->name;
-                    $new->{$key['text']} = $lec->value;
+                    $new->$key['text'] = $lec->value;
                 } else {
                     $key = $lec->name;
                     $new->$key = $lec->value;
