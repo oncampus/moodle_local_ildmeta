@@ -40,11 +40,9 @@ class generate_moochub_task extends \core\task\scheduled_task {
 
         $json = array();
         $json['links'] = array(
-            'self' => '',
-            'first' => '',
-            'last' => '',
-            'prev' => '',
-            'next' => ''
+            'self' => 'https://open.vhb.org/moochub_new.json',
+            'first' => 'https://open.vhb.org/moochub_new.json',
+            'last' => 'https://open.vhb.org/moochub_new.json',
         );
 
         $json['data'] = array();
@@ -57,16 +55,11 @@ class generate_moochub_task extends \core\task\scheduled_task {
                 $dataentry = array();
                 $dataentry['type'] = 'courses';
                 $dataentry['id'] = 'openvhb' . $product->courseid;
-                $dataentry['attributes'] = array();
-                $dataentry['attributes']['url'] = $CFG->wwwroot . '/blocks/ildmetaselect/detailpage.php?id=' . $product->courseid;
 
                 $universities = $DB->get_record('user_info_field', array('shortname' => 'universities'));
                 $subjectareas = $DB->get_record('user_info_field', array('shortname' => 'subjectareas'));
 
-                $langlist = [
-                    'de',
-                    'en',
-                ];
+                $langlist = array('de', 'en', 'es');
 
                 $fs = get_file_storage();
                 $fileurl = '';
@@ -106,27 +99,57 @@ class generate_moochub_task extends \core\task\scheduled_task {
                 $unilist = implode(', ', $uninames);
                 $subjectlist = implode(', ', $subjectnames);
 
+                $dataentry['attributes'] = array();
                 $dataentry['attributes']['name'] = $product->coursetitle;
-                $dataentry['attributes']['productImage'] = (string)$fileurl; // Overviewimage.
-                $dataentry['attributes']['publisher'] = $product->lecturer;
-                $dataentry['attributes']['university'] = $unilist;
-                $dataentry['attributes']['languages'] = $langlist[$product->courselanguage];
-                $dataentry['attributes']['subjectarea'] = $subjectlist;
-                $dataentry['attributes']['processingtime'] = $product->processingtime . ' Stunden';
-                $dataentry['attributes']['startDate'] = date('d.m.y', $product->starttime);
-                $dataentry['attributes']['teasertext'] = $product->teasertext;
-                $dataentry['attributes']['externprovider'] = 'openvhb';
+                $dataentry['attributes']['courseCode'] = 'openvhb' . $product->courseid;
+                $dataentry['attributes']['courseMode'] = "MOOC";
+                $dataentry['attributes']['languages'] = array($langlist[$product->courselanguage]);
+
+                date_default_timezone_set("UTC");
+                $dataentry['attributes']['startDate'] = date('c', $product->starttime);
+
+                $dataentry['attributes']['availableUntil'] = null;
+
+                if (trim($product->videocode) == '') {
+                    $dataentry['attributes']['video'] = null;
+                } else {
+                    $dataentry['attributes']['video'] = array();
+                    $dataentry['attributes']['video']['url'] = trim($product->videocode);
+                    $dataentry['attributes']['video']['licenses'] = array();
+                    $dataentry['attributes']['video']['licenses'][0]['id'] = "Proprietary";
+                    $dataentry['attributes']['video']['licenses'][0]['url'] = null;
+                }
+
+                $lecturer = explode(', ', $product->lecturer);
+                $dataentry['attributes']['instructors'] = array();
+                for ($i = 0; $i < count($lecturer); $i++) {
+                    $dataentry['attributes']['instructors'][$i] = new \stdClass;
+                    $dataentry['attributes']['instructors'][$i]->name = $lecturer[$i];
+                }
+
+                $dataentry['attributes']['moocProvider'] = array();
+                $dataentry['attributes']['moocProvider']['name'] = "OPEN vhb";
+                $dataentry['attributes']['moocProvider']['url'] = "https://open.vhb.org";
+                $dataentry['attributes']['moocProvider']['logo'] = "https://open.vhb.org/vhb_logo-OPEN_vhb.jpg";
+
+                $dataentry['attributes']['url'] = $CFG->wwwroot . '/blocks/ildmetaselect/detailpage.php?id=' . $product->courseid;
+
+                $dataentry['attributes']['courseLicenses'] = array();
+                $dataentry['attributes']['courseLicenses'][0]['id'] = "Proprietary";
+                $dataentry['attributes']['courseLicenses'][0]['url'] = null;
+
+                $dataentry['attributes']['access'] = array("free");
 
                 $json['data'][] = $dataentry;
             }
             mtrace('product added: ' . $product->courseid . ' ' . $product->coursetitle);
         }
 
-        if ($fp = fopen($CFG->dirroot . '/courses.json', 'w')) {
+        if ($fp = fopen($CFG->dirroot . '/moochub_new.json', 'w')) {
             fwrite($fp, json_encode($json));
             fclose($fp);
         } else {
-            mtrace('Error opening file:' . $CFG->dirroot . '/courses.json');
+            mtrace('Error opening file:' . $CFG->dirroot . '/moochub_new.json');
         }
     }
 }

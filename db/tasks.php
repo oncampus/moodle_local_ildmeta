@@ -29,10 +29,20 @@ $tasks = array(
     array(
         'classname' => 'local_ildmeta\task\generate_moochub_task',
         'blocking' => 0,
-        'minute' => '*',
+        'minute' => '9',
+        'hour' => '*',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    ),
+    array(
+        'classname' => 'local_ildmeta\task\generate_coursesjson_task',
+        'blocking' => 0,
+        'minute' => '9',
         'hour' => '*',
         'day' => '*',
         'month' => '*',
         'dayofweek' => '*'
     )
-);
+    
+    );

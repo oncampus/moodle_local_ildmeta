@@ -75,7 +75,7 @@ function xmldb_local_ildmeta_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020121800, 'local', 'ildmeta');
     }
 
-    if ($oldversion < 2020121802) {
+    if ($oldversion < 2021070400) {
 
         // Define field urloverviewimage to be added to ildmeta.
         $table = new xmldb_table('ildmeta');
@@ -88,8 +88,7 @@ function xmldb_local_ildmeta_upgrade($oldversion) {
 
         // Define field licenceoverviewimage to be added to ildmeta.
         $table = new xmldb_table('ildmeta');
-        $field = new xmldb_field('licenceoverviewimage', XMLDB_TYPE_INTEGER, '1',
-            null, null, null, null, 'urloverviewimage');
+        $field = new xmldb_field('licenceoverviewimage', XMLDB_TYPE_INTEGER, '1', null, null, null, null, 'urloverviewimage');
 
         // Conditionally launch add field licenceoverviewimage.
         if (!$dbman->field_exists($table, $field)) {
@@ -98,8 +97,7 @@ function xmldb_local_ildmeta_upgrade($oldversion) {
 
         // Define field urllicenceoverviewimage to be added to ildmeta.
         $table = new xmldb_table('ildmeta');
-        $field = new xmldb_field('urllicenceoverviewimage', XMLDB_TYPE_CHAR, '1333',
-            null, null, null, null, 'licenceoverviewimage');
+        $field = new xmldb_field('urllicenceoverviewimage', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'licenceoverviewimage');
 
         // Conditionally launch add field urllicenceoverviewimage.
         if (!$dbman->field_exists($table, $field)) {
@@ -107,10 +105,10 @@ function xmldb_local_ildmeta_upgrade($oldversion) {
         }
 
         // Ildmeta savepoint reached.
-        upgrade_plugin_savepoint(true, 2020121802, 'local', 'ildmeta');
+        upgrade_plugin_savepoint(true, 2021070400, 'local', 'ildmeta');
     }
 
-    if ($oldversion < 2020121802) {
+    if ($oldversion < 2021070500) {
 
         // Define table ildmeta_settings to be created.
         $table = new xmldb_table('ildmeta_settings');
@@ -129,8 +127,9 @@ function xmldb_local_ildmeta_upgrade($oldversion) {
         }
 
         // Ildmeta savepoint reached.
-        upgrade_plugin_savepoint(true, 2020121802, 'local', 'ildmeta');
+        upgrade_plugin_savepoint(true, 2021070500, 'local', 'ildmeta');
     }
+    
 
     return true;
 }
